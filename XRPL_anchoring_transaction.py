@@ -16,11 +16,11 @@ verifiable_credentials = {
 def Anchor():
     #Prepare Transaction
     transaction = xrpl.models.transactions.Payment(
-        account="raBiQyQUWvGiUEt8YW9ThW2WdnM8rajFL3",  # Replace with the sender's XRP address
-        destination="rBjFFJkrfTvTwSzJGSTw45iGKjxxtoFXGc",  # Replace with the destination XRP address
-        amount=xrpl.models.amounts.Amount("1", "XRP"),  # Replace with the desired transaction amount
+        account="raBiQyQUWvGiUEt8YW9ThW2WdnM8rajFL3",  
+        destination="rBjFFJkrfTvTwSzJGSTw45iGKjxxtoFXGc",  
+        amount=xrpl.models.amounts.Amount("1", "XRP"),  
         invoice_id=xrpl.utils.crypto.hash_sha256(str(verifiable_credentials)),  # Hash the credentials as the invoice ID
-        fee=xrpl.models.amounts.Amount("12", "drops")  # Set the transaction fee
+        fee=xrpl.models.amounts.Amount("12", "drops")  
 )
 
     # Credentials
