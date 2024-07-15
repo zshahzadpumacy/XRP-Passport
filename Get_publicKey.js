@@ -13,7 +13,7 @@ function getPublicKeyHex(secret) {
 }
 
 // Example usage:
-const secret = 'sEdTfSBGAnjpksijZoYkFp48qBpJFpN'; // Your secret key
+const secret = ''; // Your secret key
 console.log('Public Key Hex:', getPublicKeyHex(secret));
 
 

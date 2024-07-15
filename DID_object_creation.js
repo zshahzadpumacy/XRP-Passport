@@ -12,7 +12,7 @@ async function main() {
         const isConnected = client.isConnected();
         console.log("Is connected:", isConnected);
 
-        const secret = "sEdTfSBGAnjpksijZoYkFp48qBpJFpN";
+        const secret = "";
 
         const keypair = r.deriveKeypair(secret);
         const signingPubKey = keypair.publicKey.toString("hex");  // Convert to hexadecimal
