@@ -1,6 +1,5 @@
 import { Resolver } from 'did-resolver';
 import { getResolver } from './xrpl-did-resolver.js';
-import { getSignature } from './Get_Signature.cjs';
 import pkg from './Verify_signature.cjs';
 
 const { verifysignature } = pkg;
