@@ -1,6 +1,7 @@
 const express = require('express');
 const { exec } = require('child_process'); // To run external scripts
 const { createRequire } = require('module'); // For importing ES modules
+const { getSignature } = require('./Get_Signature.cjs');
 
 const app = express();
 const PORT = 3000;
@@ -10,13 +11,15 @@ app.use(express.json());
 
 // Handle POST request
 app.post('/run', async (req, res) => {
-    const { scriptName, did, signature } = req.body; // Extract the scriptName, did, and signature from the request
+    const { scriptName, did, privateKeyHex } = req.body; // Extract the scriptName, did, and signature from the request
 
-    if (!scriptName || !did || !signature) {
+    if (!scriptName || !did || !privateKeyHex) {
         return res.status(400).json({ error: 'Script name, DID, and signature are required' });
     }
 
     try {
+        const signature = getSignature(privateKeyHex);
+        console.log(signature)
         // Use dynamic import to load the module and call the exported function
         const scriptModule = await import(`./${scriptName}.js`);
         
