@@ -2,7 +2,7 @@ const express = require('express');
 const { exec } = require('child_process'); // To run external scripts
 const { createRequire } = require('module'); // For importing ES modules
 const { getSignature } = require('./Get_Signature.cjs');
-const fetch = require('node-fetch');
+
 
 const app = express();
 const PORT = 3000;

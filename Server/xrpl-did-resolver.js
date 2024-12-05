@@ -1,6 +1,8 @@
 import { Resolver } from 'did-resolver';
 import { Client, convertHexToString } from 'xrpl';
 import { Errors } from './utils.js';
+import fetch from 'node-fetch';
+ 
 
 const XRPL_NODE = 'wss://s.devnet.rippletest.net:51233';
 
