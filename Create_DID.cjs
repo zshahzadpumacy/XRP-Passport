@@ -3,7 +3,7 @@ const r = require("ripple-keypairs");
 
 const client = new xrpl.Client("wss://s.devnet.rippletest.net:51233/");
 
-async function main() {
+export async function main(secret, URI) {
     try {
         // Connect to the XRPL server
         await client.connect();
@@ -12,38 +12,33 @@ async function main() {
         const isConnected = client.isConnected();
         console.log("Is connected:", isConnected);
 
-        //const secret = "sEdTeSshyApaMpYZeurg18Vqnb9EUsK";
-        const secret = "sEdTzCVZf93ELHiEDMjzQDQ88v9uTYu";
-
-        const keypair = r.deriveKeypair(secret);
-        const signingPubKey = keypair.publicKey.toString("hex");  // Convert to hexadecimal
-        console.log("SigningPubKey:", signingPubKey);
-
         const wallet = xrpl.Wallet.fromSeed(secret);
         console.log("Wallet address:", wallet.address);
+        console.log("Wallet address:", wallet.publicKey);
+   
+        console.log("base = ", URI)
 
-        const max_ledger = xrpl.max_ledger
+        const ledgerInfo = await client.request({
+            command: "ledger",
+            ledger_index: "validated",
+        });
+        const currentLedgerIndex = ledgerInfo.result.ledger_index;
+        console.log("Current Ledger Index:", currentLedgerIndex);
 
-        data = "https://ivory-bitter-tiglon-303.mypinata.cloud/ipfs/QmStC9Nh51PBQwKjxzgkv9jhRqZcyLGctkizPHLbJbMSBp"
-        let hexadecimalString = Buffer.from(data, 'utf8').toString('hex');
-        console.log("base = ", hexadecimalString)
-        
-        /*const prepared = await client.autofill({
-            "TransactionType": "DIDDelete",
-            "Account": wallet.address,
-            "Fee": "12",
-            "Sequence": max_ledger,
-            "SigningPubKey": signingPubKey
-        }) */
+        // Define LastLedgerSequence (add a buffer of 10 ledgers)
+        const lastLedgerSequence = currentLedgerIndex + 10;
 
         const prepared = await client.autofill({
             "TransactionType": "DIDSet",
             "Account": wallet.address,
-            "Fee": "10",
-            "Sequence": max_ledger,
-            "URI": hexadecimalString,
-            "SigningPubKey": signingPubKey
+            "URI": URI,
+            "SigningPubKey": wallet.publicKey
         })
+
+        const max_ledger = prepared.LastLedgerSequence
+        console.log("Prepared transaction instructions:", prepared)
+        console.log("Transaction cost:", xrpl.dropsToXrp(prepared.Fee), "XRP")
+        console.log("Transaction expires after ledger:", max_ledger)
 
         const signed = wallet.sign(prepared)
         const hst_result = await client.submitAndWait(signed.tx_blob)
@@ -66,5 +61,3 @@ async function main() {
     }
 }
 
-// Start the main function
-main();
