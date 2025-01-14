@@ -44,7 +44,6 @@ app.post('/run', async (req, res) => {
         try {
             const scriptModule = await import(`./${scriptName}.mjs`);
             const result = await scriptModule.main(Secret, URI);
-            print("Server response = ", result)
 
             res.json({ success: true, created: result });
         } catch (error) {
