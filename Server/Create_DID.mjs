@@ -1,5 +1,8 @@
-const xrpl = require("xrpl");
-const r = require("ripple-keypairs");
+//const xrpl = require("xrpl");
+//const r = require("ripple-keypairs");
+
+import xrpl from 'xrpl'
+import r from 'ripple-keypairs'
 
 const client = new xrpl.Client("wss://s.devnet.rippletest.net:51233/");
 
