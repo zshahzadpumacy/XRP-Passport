@@ -45,7 +45,7 @@ app.post('/run', async (req, res) => {
             const scriptModule = await import(`./${scriptName}.mjs`);
             const result = await scriptModule.main(Secret, URI);
 
-            res.json({ success: true, created: result });
+            res.json({ success: true, isValid: result });
         } catch (error) {
             console.error('Error executing script:', error);
             res.status(500).json({ error: 'Script execution failed', details: error.message });

@@ -59,7 +59,10 @@ export async function main(Secret, URI) {
 
         await client.disconnect();
         console.log("Disconnected from XRPL server.");
-        return hst_result.result.meta.TransactionResult
+        if (hst_result.result.meta.TransactionResult == "tesSUCCESS"){
+            return true
+        }
+        //return hst_result.result.meta.TransactionResult
     } catch (error) {
         console.error("Error:", error);
         return false
