@@ -58,12 +58,6 @@ async function processDID(did, address) {
   let result;
   try {
     result = await getDID(address);
-    
-    if (typeof result === "object") {
-      
-  } else if (typeof result === "string") {
-      
-  }
   
     if (typeof result !== 'object') {
       return {
