@@ -125,15 +125,11 @@ export class IntegratedVerifiableCredential {
       console.log("\n🔑 XRPL WALLET DERIVED:");
       console.log("==========================");
       console.log(`Address: ${wallet.address}`);
-      console.log(`Public Key: ${wallet.publicKey}`);
-      console.log(`Private Key: ${wallet.privateKey}`);
 
       // Use elliptic curve for key derivation
       const privateKeyHex = wallet.privateKey;
       const keyPair = ec.keyFromPrivate(privateKeyHex);
       const publicKeyHex = keyPair.getPublic('hex');
-      
-      console.log(`Public Key (Hex): ${publicKeyHex}`);
       
       return {
         address: wallet.address,
@@ -211,13 +207,12 @@ export class IntegratedVerifiableCredential {
     // Sign the credential with XRPL private key
     const signedCredential = this.signCredential(credential);
     
-    console.log('\n🎯 VERIFIABLE CREDENTIAL CREATED:');
-    console.log('==================================');
-    console.log(`Applicant ID: ${applicantId}`);
-    console.log(`External User ID: ${externalUserId}`);
-    console.log(`Status: ${verificationResult.reviewAnswer}`);
-    console.log(`Issuer: ${this.issuerDid}`);
-    console.log(`Signed: ✅ Yes (with XRPL private key)`);
+          console.log('\n🎯 VERIFIABLE CREDENTIAL CREATED:');
+      console.log('==================================');
+      console.log(`Applicant ID: ${applicantId}`);
+      console.log(`External User ID: ${externalUserId}`);
+      console.log(`Status: ${verificationResult.reviewAnswer}`);
+      console.log(`Issuer: ${this.issuerDid}`);
 
     return signedCredential;
   }
@@ -319,10 +314,6 @@ export class IntegratedVerifiableCredential {
       console.log('============================');
       console.log(`IPFS Hash: ${uploadResult.ipfsHash}`);
       console.log(`URI: ${uploadResult.uri}`);
-      console.log(`Hex: ${uploadResult.hexadecimalString}`);
-      console.log(`Credential ID: ${uploadResult.credentialId}`);
-      console.log(`User ID: ${uploadResult.userId}`);
-      console.log(`Upload Date: ${uploadResult.uploadDate}`);
       
       return uploadResult;
       
@@ -343,7 +334,6 @@ export class IntegratedVerifiableCredential {
       console.log(`Transaction Hash: ${didResult.transactionHash}`);
       console.log(`Transaction URL: ${didResult.transactionUrl}`);
       console.log(`Fee: ${didResult.fee} XRP`);
-      console.log(`URI: ${didResult.uri}`);
       
       return didResult;
       

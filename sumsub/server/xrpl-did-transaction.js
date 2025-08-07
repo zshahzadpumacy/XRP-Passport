@@ -22,7 +22,7 @@ export class XRPLDIDTransaction {
   async disconnect() {
     if (this.client && this.isConnected) {
       await this.client.disconnect();
-      console.log("🔌 Disconnected from XRPL server.");
+              console.log("Disconnected from XRPL server.");
     }
   }
 
@@ -66,8 +66,6 @@ export class XRPLDIDTransaction {
     try {
       console.log('\n🌐 CREATING XRPL DID TRANSACTION:');
       console.log('==================================');
-      console.log(`IPFS Hash: ${ipfsResult.ipfsHash}`);
-      console.log(`Full URI: ${ipfsResult.uri}`);
       
       // Validate the seed first
       if (!this.validateSeed(secret)) {
@@ -83,8 +81,6 @@ export class XRPLDIDTransaction {
       // Create wallet from seed
       console.log('🔑 Creating wallet from seed...');
       const wallet = xrpl.Wallet.fromSeed(secret);
-      console.log(`Wallet address: ${wallet.address}`);
-      console.log(`Public key: ${wallet.publicKey}`);
 
       // Validate the wallet address
       if (!xrpl.isValidClassicAddress(wallet.address)) {
@@ -107,8 +103,6 @@ export class XRPLDIDTransaction {
       console.log('\n📋 TRANSACTION PARAMETERS:');
       console.log('==========================');
       console.log(`Account: ${wallet.address}`);
-      console.log(`URI: ${uriHex}`);
-      console.log(`SigningPubKey: ${wallet.publicKey}`);
 
       // Prepare the DID transaction with hex URI
       const prepared = await this.client.autofill({
@@ -124,7 +118,7 @@ export class XRPLDIDTransaction {
 
       // Sign the transaction
       const signed = wallet.sign(prepared);
-      console.log(`Transaction signed with hash: ${signed.hash}`);
+
 
       // Submit and wait for result
       console.log('📤 Submitting transaction to XRPL...');
@@ -163,8 +157,6 @@ export class XRPLDIDTransaction {
     try {
       console.log('\n🎯 CREATING DID TRANSACTION FOR CREDENTIAL:');
       console.log('==========================================');
-      console.log(`IPFS Hash: ${ipfsResult.ipfsHash}`);
-      console.log(`URI: ${ipfsResult.uri}`);
       
       const result = await this.createDIDTransaction(secret, ipfsResult);
       
@@ -174,10 +166,6 @@ export class XRPLDIDTransaction {
       console.log(`Transaction Hash: ${result.transactionHash}`);
       console.log(`Transaction URL: ${result.transactionUrl}`);
       console.log(`Fee: ${result.fee} XRP`);
-      console.log(`URI Hex: ${result.uri}`);
-      console.log(`IPFS URI: ${result.ipfsUri}`);
-      console.log(`Full IPFS URI: ${result.fullUri}`);
-      console.log(`IPFS Hash: ${result.ipfsHash}`);
       
       return {
         ...result,

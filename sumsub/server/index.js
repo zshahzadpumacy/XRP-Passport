@@ -94,8 +94,8 @@ app.get('/kyc', async (req, res, next) => {
         <h1>Configuration Error</h1>
         <p>Missing environment variables:</p>
         <ul>
-          <li>SUMSUB_APP_TOKEN: ${SUMSUB_APP_TOKEN ? '✅ Set' : '❌ Missing'}</li>
-          <li>SUMSUB_SECRET_KEY: ${SUMSUB_SECRET_KEY ? '✅ Set' : '❌ Missing'}</li>
+                  <li>SUMSUB_APP_TOKEN: ${SUMSUB_APP_TOKEN ? '✅ Set' : '❌ Missing'}</li>
+        <li>SUMSUB_SECRET_KEY: ${SUMSUB_SECRET_KEY ? '✅ Set' : '❌ Missing'}</li>
         </ul>
         <p>Please check your .env file and restart the server.</p>
       `)
@@ -360,7 +360,6 @@ async function handleApplicantReviewed(payload) {
       console.log();
       console.log(`🌐 Your credential is available at: ${result.ipfsResult.uri}`);
       console.log(`🔗 XRPL transaction: ${result.didResult.transactionUrl}`);
-      console.log(`📱 For Android app: ${result.ipfsResult.hexadecimalString}`);
       
       // TODO: Update database status to 'verified'
       // TODO: Send success email to user with credential info
@@ -372,8 +371,8 @@ async function handleApplicantReviewed(payload) {
       integratedVC.close();
     }
     
-  } else if (reviewResult?.reviewAnswer === 'RED') {
-    console.log(`[WEBHOOK] ❌ User ${externalUserId} (${applicantId}) verification failed`);
+      } else if (reviewResult?.reviewAnswer === 'RED') {
+      console.log(`[WEBHOOK] ❌ User ${externalUserId} (${applicantId}) verification failed`);
     // TODO: Update database status to 'failed'
     // TODO: Send failure email to user
   } else {

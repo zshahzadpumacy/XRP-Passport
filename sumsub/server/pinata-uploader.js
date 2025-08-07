@@ -45,7 +45,6 @@ export class PinataUploader {
       console.log('✅ Upload successful!');
       console.log(`   IPFS Hash: ${ipfsHash}`);
       console.log(`   URI: ${uri}`);
-      console.log(`   Hex: ${hexadecimalString}`);
       
       return {
         ipfsHash,
