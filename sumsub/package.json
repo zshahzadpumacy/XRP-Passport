@@ -1,0 +1,29 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --ignore credentials/**/* --ignore *.json --ignore test-*.js server/index.js"
+  },
+  "name": "sumsub",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@sumsub/websdk": "^2.3.19",
+    "crypto-js": "^4.2.0",
+    "did-resolver": "^4.1.0",
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "elliptic": "^6.6.1",
+    "express": "^5.1.0",
+    "form-data": "^4.0.4",
+    "node-fetch": "^3.3.2",
+    "secp256k1": "^5.0.1",
+    "xrpl": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

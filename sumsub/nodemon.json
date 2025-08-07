@@ -1,0 +1,12 @@
+{
+  "watch": ["server/"],
+  "ignore": [
+    "credentials/**/*",
+    "*.json",
+    "node_modules/**/*",
+    "test-*.js",
+    "interactive-*.js"
+  ],
+  "ext": "js",
+  "delay": "1000"
+} 
