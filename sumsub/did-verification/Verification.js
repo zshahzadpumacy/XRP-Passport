@@ -9,8 +9,8 @@ function getUserInput() {
       output: process.stdout
     });
 
-    console.log('\n🧪 DID VC Fetcher Test');
-    console.log('========================');
+    console.log('\n🧪 DID VERIFICATION REQUEST');
+    console.log('============================');
     console.log('Please enter your credentials:');
     console.log('');
 
@@ -43,8 +43,7 @@ async function testVCFetcher() {
     // Get user input
     const { did, privateKey } = await getUserInput();
     
-    console.log('\n📋 Input received:');
-    console.log(`DID: ${did}`);
+    console.log(`\nDID: ${did}`);
     console.log(`Private Key: ${privateKey.substring(0, 10)}...`);
     console.log('');
     
@@ -52,6 +51,7 @@ async function testVCFetcher() {
     console.log('==========================================');
     console.log(`DID: ${did}`);
     console.log(`Private Key: ${privateKey.substring(0, 10)}...`);
+    console.log('');
     
     const fetcher = new DIDVCFetcher();
     const result = await fetcher.getVCWithDIDAndKey(did, privateKey);
@@ -73,44 +73,38 @@ async function testVCFetcher() {
       console.log(`KYC Applicant ID: ${result.vc.credentialSubject.kycVerification.applicantId}`);
       console.log(`KYC External User ID: ${result.vc.credentialSubject.kycVerification.externalUserId}`);
       
-      console.log('\n✅ Test PASSED!');
-      console.log('================');
-      console.log(`DID: ${result.did}`);
-      console.log(`Address: ${result.address}`);
-      console.log(`URI: ${result.uri}`);
-      console.log(`VC ID: ${result.vc.id}`);
-      console.log(`Status: ${result.vc.credentialSubject.kycVerification.status}`);
+      console.log('\n✅ DID VERIFICATION COMPLETED');
+      console.log('==============================');
       
     } else {
-      console.log('\n❌ Test FAILED!');
-      console.log('================');
+      console.log('\n❌ VERIFICATION FAILED');
+      console.log('=======================');
       console.log(`Error: ${result.error}`);
     }
     
     return result;
     
   } catch (error) {
-    console.error('❌ Test ERROR:', error.message);
+    console.error('\n❌ VERIFICATION ERROR');
+    console.error('=====================');
+    console.error(`Error: ${error.message}`);
     return { success: false, error: error.message };
   }
 }
 
 // Run test if this file is executed directly
-if (process.argv[1] && process.argv[1].endsWith('test.js')) {
-  testVCFetcher()
-    .then(result => {
-      if (result.success) {
-        console.log('\n✅ Library test completed successfully!');
-        process.exit(0);
-      } else {
-        console.log('\n❌ Library test failed!');
-        process.exit(1);
-      }
-    })
-    .catch(error => {
-      console.error('\n❌ Library test error:', error.message);
+testVCFetcher()
+  .then(result => {
+    if (result.success) {
+      process.exit(0);
+    } else {
+      console.log('\n❌ Library test failed!');
       process.exit(1);
-    });
-}
+    }
+  })
+  .catch(error => {
+    console.error('\n❌ Library test error:', error.message);
+    process.exit(1);
+  });
 
 export { testVCFetcher }; 
