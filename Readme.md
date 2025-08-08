@@ -36,3 +36,106 @@ Using the provided DID string, our script retrieves the associated DID object fr
 During the implementation phase, we encountered some challenges that required adaptation, such as we were using IPFS as third-party storage for the DID document; however, we faced the issue where if the DID Document file was not pinned, we would not be able to fetch it or the connection would time out.. To avoid this, we shifted to Pinata, which is more reliable and has better accessibility.
 Another significant challenge arose during the development of the resolver. This component was not originally included in our project plan, which meant we had to allocate additional time and effort for its implementation. However, we were able to build on the great work from our mentor, Mayukha Vadari, which was a big help and enabled us to complete the resolver.
 
+# 📋 SUMSUB KYC + Verifiable Credentials Pipeline
+
+## 🎯 **Pipeline Overview**
+This codebase implements a complete KYC verification system using Sumsub for identity verification, followed by automatic creation and storage of Verifiable Credentials (VCs) on the XRPL blockchain and IPFS.
+
+---
+
+## 📁 **Sumsub File Structure**
+
+### **1. FRONTEND INITIATION**
+**`views/kyc.ejs`** 
+- **Purpose**: Main KYC verification interface
+- **Function**: Renders Sumsub SDK integration for user identity verification
+- **Key Features**: 
+  - Loads Sumsub WebSDK for identity checks
+  - Handles SDK initialization and error handling
+  - Provides user interface for document upload and verification
+
+
+**`public/sdk/sns-websdk-builder.js`** 
+- **Purpose**: Local fallback for Sumsub SDK
+- **Function**: Serves as backup when CDN is unavailable
+
+
+### **2. BACKEND SERVER & ROUTING**
+**`server/index.js`** 
+- **Purpose**: Main Express server handling all routes and webhook processing
+- **Key Functions**:
+  - `/kyc` - Serves KYC verification page
+  - `/refreshToken` - Refreshes Sumsub SDK tokens
+  - `/sumsub/webhook` - Processes Sumsub webhook notifications
+  - `/debug` - Debug endpoint for environment variables
+
+
+### **3. VERIFIABLE CREDENTIAL CREATION**
+**`server/verifiable-credential-integrated.js`** 
+- **Purpose**: Core VC creation and management system
+- **Key Functions**:
+  - `initializeWithSeed()` - Sets up DID from XRPL seed
+  - `createKYCVerifiableCredential()` - Creates VC from KYC data
+  - `signCredential()` - Cryptographically signs VCs
+  - `uploadCredentialToIPFS()` - Stores VCs on IPFS
+  - `createDIDTransaction()` - Records DID on XRPL
+
+
+**`server/pinata-uploader.js`** 
+- **Purpose**: IPFS upload functionality via Pinata
+- **Key Functions**:
+  - `uploadToIPFS()` - Uploads JSON data to IPFS
+  - `getIPFSHash()` - Retrieves IPFS hash from response
+
+
+**`server/xrpl-did-transaction.js`** 
+- **Purpose**: XRPL blockchain interaction for DID operations
+- **Key Functions**:
+  - `createDIDTransaction()` - Creates DID on XRPL
+  - `getDIDObject()` - Retrieves DID from XRPL
+  - `extractAccountFromDID()` - Parses XRPL DIDs
+
+
+### **4. VERIFICATION & RETRIEVAL**
+**`did-verification/did-vc-fetcher.js`** 
+- **Purpose**: Retrieves and validates VCs from XRPL/IPFS
+- **Key Functions**:
+  - `getVCFromDID()` - Fetches VC using DID
+  - `getVCWithDIDAndKey()` - Authenticated VC retrieval
+  - `convertIPFSUriToPinataUrl()` - IPFS URI conversion
+
+
+**`did-verification/Verification.js`** 
+- **Purpose**: VC verification utilities
+- **Key Functions**: VC validation and verification logic
+
+
+### **5. STORAGE & OUTPUT**
+**`credentials`** 
+- **Purpose**: Sample stored credential
+- **Content**: Example VC in JSON format
+
+---
+
+## 🔄 **Pipeline Flow**
+
+### **Phase 1: User Verification**
+1. User visits `/kyc` → `views/kyc.ejs` renders
+2. Sumsub SDK loads → User completes identity verification
+3. Sumsub sends webhook to `/sumsub/webhook` → `server/index.js` processes
+
+### **Phase 2: VC Creation**
+4. Webhook triggers → `server/verifiable-credential-integrated.js` initializes
+5. System prompts for XRPL seed → Creates DID and wallet
+6. VC created from KYC data → Signed cryptographically
+7. VC uploaded to IPFS → `server/pinata-uploader.js` handles
+8. DID transaction created on XRPL → `server/xrpl-did-transaction.js` handles
+
+### **Phase 3: Verification & Retrieval**
+9. VC stored on IPFS with DID reference on XRPL
+10. `did-verification/did-vc-fetcher.js` can retrieve VCs
+11. VCs can be verified using DID and private key
+
+
+This pipeline creates a complete, decentralized identity verification system with verifiable credentials stored on blockchain and IPFS. 
+
