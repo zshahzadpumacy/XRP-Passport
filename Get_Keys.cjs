@@ -22,7 +22,7 @@ async function getAddressFromSeed(seed) {
 }
  
 // seed
-const seed = 'sEd7HWc82o9LuLXx9hzyzbk24eQ2r5i';
+const seed = 'sEdVrVmBsWumHmp15BqHKSRWvsVDZGH';
  
 getAddressFromSeed(seed);
 
